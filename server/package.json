@@ -12,7 +12,10 @@
     "start:dev": "npx nodemon",
     "development": "ts-node server.ts",
     "start_prod": "ts-node dist/server.js",
-    "build_prod": "tsc -p ./src"
+    "build_prod": "tsc -p .",
+    "server": "npx nodemon --quiet",
+    "client": "npm start --prefix ../client",
+    "prod": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +35,7 @@
   "dependencies": {
     "@vinejs/vine": "^1.6.0",
     "bcrypt": "^5.1.1",
+    "concurrently": "^8.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",

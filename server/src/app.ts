@@ -6,8 +6,8 @@ import userRouter from "./routes/userRoute.js";
 import skillRouter from "./routes/skillRoute.js";
 import express, { NextFunction, Request, Response } from "express";
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 app.use(morgan("combined"));

@@ -3,6 +3,7 @@ import vine from "@vinejs/vine";
 import jsonwebtoken from "jsonwebtoken";
 import ApiError from "../error/ApiError.js";
 class userController {
+    userModel;
     constructor(modelUser) {
         this.userModel = modelUser;
     }
@@ -66,7 +67,7 @@ class userController {
             });
             const validator = vine.compile(registerSchema);
             const output = await validator.validate(registerData);
-            const existingUser = await this.userModel.findOne({
+            const existingUser = await this.userModel?.findOne({
                 email: registerData.email,
             });
             if (existingUser) {
@@ -74,7 +75,9 @@ class userController {
             }
             const saltRounds = 10;
             const hash = await bcrypt.hash(registerData.password, saltRounds);
-            const userHashed = Object.assign(Object.assign({}, registerData), { password: hash });
+            const userHashed = Object.assign(Object.assign({}, registerData), {
+                password: hash,
+            });
             const user = await new this.userModel(userHashed).save();
             res.status(201).json(user);
         }

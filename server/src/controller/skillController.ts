@@ -1,9 +1,8 @@
+// @ts-ignore
 import vine from "@vinejs/vine";
 import { ObjectId } from "bson";
-import { HydratedDocument } from "mongoose";
 import ApiError from "../error/ApiError.js";
 import skillModel from "model/skillModel.js";
-import { ISkill } from "interface/skill/ISkill.js";
 import { Request, Response, NextFunction } from "express";
 import { ISkillController } from "interface/skill/ISkillController.js";
 class skillController implements ISkillController {
@@ -13,7 +12,7 @@ class skillController implements ISkillController {
   }
   async create(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const skillSchema = vine.object({
+      const skillSchema: any = vine.object({
         user: vine.string(),
         level: vine.string(),
         language: vine.string(),
@@ -27,7 +26,7 @@ class skillController implements ISkillController {
         ...req.body,
       }).save();
       res.status(201).json(skill);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       const cases = error._message || error.status;
       switch (cases) {
@@ -55,8 +54,8 @@ class skillController implements ISkillController {
       const skills = await this.skillModel.find({
         user: new ObjectId(user),
       });
-      res.status(200).json(skills); 
-    } catch (error) {
+      res.status(200).json(skills);
+    } catch (error: any) {
       console.log(error);
       const cases = error._message || error.status;
       switch (cases) {

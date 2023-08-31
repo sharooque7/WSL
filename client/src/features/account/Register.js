@@ -27,25 +27,25 @@ export default function Register() {
     mode: "onTouched",
   });
 
-  function handleApiErros(errors) {
-    if (errors) {
-      errors?.forEach((error) => {
-        if (error.includes("password")) {
-          setError("password", { message: error });
-        } else if (error.includes("email")) {
-          setError("email", { message: error });
-        } else if (error.includes("firstname")) {
-          setError("firstname", { message: error });
-        } else if (error.includes("lastname")) {
-          setError("lastname", { message: error });
-        } else if (error.includes("gender")) {
-          setError("gender", { message: error });
-        } else if (error.includes("phone")) {
-          setError("phone", { message: error });
-        }
-      });
-    }
-  }
+  // function handleApiErros(errors) {
+  //   if (errors) {
+  //     errors?.forEach((error) => {
+  //       if (error.includes("password")) {
+  //         setError("password", { message: error });
+  //       } else if (error.includes("email")) {
+  //         setError("email", { message: error });
+  //       } else if (error.includes("firstname")) {
+  //         setError("firstname", { message: error });
+  //       } else if (error.includes("lastname")) {
+  //         setError("lastname", { message: error });
+  //       } else if (error.includes("gender")) {
+  //         setError("gender", { message: error });
+  //       } else if (error.includes("phone")) {
+  //         setError("phone", { message: error });
+  //       }
+  //     });
+  //   }
+  // }
 
   return (
     <ThemeProvider theme={theme}>

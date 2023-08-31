@@ -1,4 +1,6 @@
 class ApiError extends Error {
+    status;
+    message;
     constructor(code, message) {
         super();
         this.status = code || 503;

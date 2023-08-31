@@ -1,13 +1,11 @@
 import cors from "cors";
-import path from "path";
 import morgan from "morgan";
-import express from "express";
-import { fileURLToPath } from "url";
 import userRouter from "./routes/userRoute.js";
 import skillRouter from "./routes/skillRoute.js";
+import express from "express";
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 app.use(express.json());
 app.use(morgan("combined"));
 app.use(express.urlencoded({ limit: "10mb", extended: true, parameterLimit: 5000 }));
@@ -42,8 +40,11 @@ app.use("/v1/skill", skillRouter);
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     return res.json({
-        error: Object.assign({}, error),
+        error: {
+            ...error,
+        },
     });
 });
 export default app;
+//# sourceMappingURL=app.js.map
 //# sourceMappingURL=app.js.map

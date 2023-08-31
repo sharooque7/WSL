@@ -1,10 +1,8 @@
 import bcrypt from "bcrypt";
 import vine from "@vinejs/vine";
 import jsonwebtoken from "jsonwebtoken";
-import { HydratedDocument } from "mongoose";
 import userModel from "model/userModel.js";
 import ApiError from "../error/ApiError.js";
-import { IUser } from "interface/user/IUser.js";
 import { Request, Response, NextFunction } from "express";
 import { IUserController } from "interface/user/IUserController.js";
 class userController implements IUserController {
@@ -22,18 +20,18 @@ class userController implements IUserController {
       });
       const validator = vine.compile(loginSchema);
       const output = await validator.validate({ email, password });
-      const user: HydratedDocument<IUser> = await this.userModel.findOne({
+      const user = await this.userModel.findOne({
         email: email,
       });
       if (!user) {
         throw new ApiError(404, "User not exist");
       }
-      const isValidPassword = await bcrypt.compare(password, user.password);
+      const isValidPassword = await bcrypt.compare(password, user.password!);
       if (!isValidPassword) {
         throw new ApiError(401, "Password incorrect Not Authorized");
       }
       console.log(isValidPassword);
-      const key = process.env.JWT_SECRET;
+      const key = process.env.JWT_SECRET!;
       const token = jsonwebtoken.sign(
         {
           exp: Math.floor(Date.now() / 1000) + 60 * 60,
@@ -42,7 +40,7 @@ class userController implements IUserController {
         key
       );
       res.status(200).json({ user, token });
-    } catch (error) {
+    } catch (error: any) {
       console.log(error._message);
       const cases = error._message || error.status;
       switch (cases) {
@@ -89,10 +87,9 @@ class userController implements IUserController {
       });
       const validator = vine.compile(registerSchema);
       const output = await validator.validate(registerData);
-      const existingUser: HydratedDocument<IUser> =
-        await this.userModel?.findOne({
-          email: registerData.email,
-        });
+      const existingUser = await this.userModel?.findOne({
+        email: registerData.email,
+      });
       if (existingUser) {
         throw new ApiError(409, "User exist!");
       }
@@ -103,7 +100,7 @@ class userController implements IUserController {
       });
       const user = await new this.userModel(userHashed).save();
       res.status(201).json(user);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       console.log(error._message);
       const cases = error._message || error.status;
@@ -139,16 +136,15 @@ class userController implements IUserController {
   async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { _id } = req.body;
-      const user: HydratedDocument<IUser> =
-        await this.userModel.findOneAndUpdate(
-          { _id },
-          Object.assign({}, req.body),
-          {
-            new: true,
-          }
-        );
+      const user = await this.userModel.findOneAndUpdate(
+        { _id },
+        Object.assign({}, req.body),
+        {
+          new: true,
+        }
+      );
       res.status(201).json(user);
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       return next(new ApiError(500, "Something went wrong"));
     }

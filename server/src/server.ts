@@ -5,10 +5,9 @@ import { createServer } from "http";
 dotenv.config();
 const server = createServer(app);
 const PORT = process.env.PORT || 3000;
-const MONGODB_URL = process.env.MONGODB_URL;
+const MONGODB_URL = process.env.MONGO_ATLAS;
 console.log(MONGODB_URL);
 await mongoose.connect(MONGODB_URL!);
 server.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);
 });
-//# sourceMappingURL=server.js.map

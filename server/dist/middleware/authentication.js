@@ -1,8 +1,7 @@
 import jsonwebtoken from "jsonwebtoken";
 import ApiError from "../error/ApiError.js";
 export const verifyToken = async (req, res, next) => {
-    var _a;
-    const token = (_a = req.headers.authorization) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
+    const token = req.headers.authorization?.split(" ")[1];
     let decoded;
     try {
         if (!token) {
@@ -15,7 +14,7 @@ export const verifyToken = async (req, res, next) => {
         next();
     }
     catch (error) {
-        if (error.name === "JsonWebTokenError") {
+        if (error?.name === "JsonWebTokenError") {
             return next(new ApiError(401, "Corrupted token"));
         }
         return next(error);

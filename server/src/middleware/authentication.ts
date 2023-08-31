@@ -12,13 +12,13 @@ export const verifyToken = async (
     if (!token) {
       throw new ApiError(401, "Access token expired,Please login");
     }
-    decoded = await jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    decoded = await jsonwebtoken.verify(token, process.env.JWT_SECRET!);
     if (!decoded) {
       throw new ApiError(401, "Not authenticated");
     }
     next();
-  } catch (error) {
-    if (error.name === "JsonWebTokenError") {
+  } catch (error: any) {
+    if (error?.name === "JsonWebTokenError") {
       return next(new ApiError(401, "Corrupted token"));
     }
     return next(error);
