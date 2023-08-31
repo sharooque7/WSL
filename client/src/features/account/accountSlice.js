@@ -12,6 +12,7 @@ function getToken() {
 const initialState = {
   user: getUser(),
   token: getToken(),
+  init: true,
   islogged: false,
 };
 
@@ -45,6 +46,7 @@ export const accountSlice = createSlice({
     },
     signIn: (state, action) => {
       state.islogged = action.payload;
+      state.init = false;
       router.navigate("/login");
     },
     setUser: (state, action) => {
